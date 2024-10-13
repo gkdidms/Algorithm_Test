@@ -6,6 +6,7 @@
 
 using namespace std;
 
+/*
 void solution(int n, vector<int> Input);
 int fibonacci(int* i, int* j, int n);
 
@@ -53,3 +54,4 @@ int fibonacci(int* i, int* j, int n) {
 
   return iResult;
 }
+*/
