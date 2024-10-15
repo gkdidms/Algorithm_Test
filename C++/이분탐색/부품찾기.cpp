@@ -20,8 +20,6 @@ int main() {
     for (int i = 0; i < m; i++)
         cin >> list_m[i];
 
-    int start = 0;
-
     sort(list_n.begin(), list_n.end());
 
     for (int i = 0; i < m; i++)
