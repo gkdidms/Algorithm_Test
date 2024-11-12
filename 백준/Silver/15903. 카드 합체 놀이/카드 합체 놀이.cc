@@ -17,24 +17,34 @@ int main() {
 
 	cin >> n >> m;
 
-	vector<long long> arraylist(n);
+	priority_queue<long long> q;
 	for (int i = 0; i < n; ++i)
 	{
-		cin >> arraylist[i];
+		long long num;
+		cin >> num;
+
+		q.push(-num);
 	}
 
 	while (m--)
 	{
-		sort(arraylist.begin(), arraylist.end());
+		long long firstNum = -q.top();
+		q.pop();
 
-		long long sum = arraylist[0] + arraylist[1];
-		arraylist[0] = sum;
-		arraylist[1] = sum;
+		long long secondNum = -q.top();
+		q.pop();
+
+		long long sum = firstNum + secondNum;
+		q.push(-sum);
+		q.push(-sum);
 	}
 
 	long long answer = 0;
 	for (int i = 0; i < n; ++i)
-		answer += arraylist[i];
+	{
+		answer += -q.top();
+		q.pop();
+	}
 
 
 	cout << answer;
