@@ -27,17 +27,9 @@ int solution(string s) {
                 if (stacklist.top() == "}" || stacklist.top() == ")" || stacklist.top() == "]")
                     break;
                 
-                if (str == "}")
-                {
-                    stacklist.top() == "{" ? stacklist.pop() : stacklist.push(str);
-                }
-                else if (str == "]")
-                {
-                    stacklist.top() == "[" ? stacklist.pop() : stacklist.push(str);
-                }
-                else if (str == ")"){
-                    stacklist.top() == "(" ? stacklist.pop() : stacklist.push(str);
-                }
+                if (str == "}") stacklist.top() == "{" ? stacklist.pop() : stacklist.push(str);
+                else if (str == "]") stacklist.top() == "[" ? stacklist.pop() : stacklist.push(str);
+                else if (str == ")") stacklist.top() == "(" ? stacklist.pop() : stacklist.push(str);
             }
         }
         
