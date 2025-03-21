@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int MAX = 120 + 12;
+const int MAX = 120 + 1;
 int solution(vector<vector<int>> info, int n, int m) {
     int answer = 0;
     
