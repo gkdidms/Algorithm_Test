@@ -5,103 +5,95 @@
 #include <queue>
 #include <map>
 
+#define format std::ios::sync_with_stdio(false), std::cin.tie(nullptr), std::cout.tie(nullptr)
+
 using namespace std;
+
 int n, m;
-pair<int, int> startPos;
-vector<vector<int>> graph;
+vector<vector<int>> board;
 vector<vector<int>> visible;
 
-int dx[4] = { -1, 1, 0, 0 };
-int dy[4] = { 0, 0, -1, 1 };
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
 
-void bfs()
+void check_cheez()
 {
-	priority_queue<pair<int, int>> q;
-	q.push({ 0, 0 });
+  queue<pair<int, int>> q;
+  q.push({0, 0});
 
-	while (!q.empty())
-	{
-		int x = q.top().first;
-		int y = q.top().second;
-		q.pop();
+  while(!q.empty())
+    {
+      auto cur = q.front();
+      q.pop();
 
+      for (int i = 0; i < 4; ++i)
+        {
+          int x = cur.first + dx[i];
+          int y = cur.second + dy[i];
 
-		for (int i = 0; i < 4; ++i)
-		{
-			int nx = x + dx[i];
-			int ny = y + dy[i];
+          if (x < 0 || x >= n || y < 0 || y >= m) continue;
 
-			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-				continue;
-
-			if (graph[nx][ny] == 0 && !visible[nx][ny])
-			{
-				visible[nx][ny] = 1;
-				q.push({nx, ny});
-			}
-			else if (graph[nx][ny] == 1)
-			{
-				visible[nx][ny] += 1;
-			}
-		}
-	}
+          if (board[x][y] == 0 && !visible[x][y])
+          {
+            visible[x][y] = 1;
+            q.push({x, y});
+          }
+          else if (board[x][y] == 1)
+          {
+            visible[x][y] += 1;
+          }
+        }
+    }
 }
 
-void air()
+bool isFinished()
 {
-	
+  for (int i = 0; i < n; ++i)
+    {
+      for (int j = 0; j < m; ++j)
+        {
+          if (board[i][j] == 1) return false;
+        }
+    }
+
+  return true;
 }
 
-int main()
-{
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	std::cout.tie(nullptr);
+int main() {
+  format;
 
-	cin >> n >> m;
+  cin >> n >> m;
+  board.resize(n, vector<int>(m));
 
-	graph.resize(n, vector<int>(m));
-	for (int i = 0; i < n; ++i)
-	{
-		for (int j = 0; j < m; ++j)
-		{
-			cin >> graph[i][j];
-		}
-	}
+  for (int i = 0; i < n; ++i)
+    {
+      for (int j = 0; j < m; ++j)
+        cin >> board[i][j];
+    }
 
-	int time = 0;
-	while (true)
-	{
-		visible.clear();
-		visible.resize(n, vector<int>(m));
+  int time = 0;
+  while(true)
+    {
+      visible.clear();
+      visible.resize(n, vector<int>(m));
+      
+      check_cheez();
+      time++;
+      
+      //치즈 업데이트
+      for (int i = 0; i < n; ++i)
+        {
+          for (int j = 0; j < m; ++j)
+            {
+              if (visible[i][j] >= 2)
+                board[i][j] = 0;
+            }
+        }
 
-		bfs();
+      if (isFinished()) break;
+    }
 
-		time++;
-
-		//치즈 업데이트
-		for (int i = 0; i < n; ++i)
-		{
-			for (int j = 0; j < m; ++j)
-			{
-				if (visible[i][j] >= 2)
-					graph[i][j] = 0;
-			}
-		}
-
-		bool isSuccess = true;
-
-		for (int i = 0; i < n; ++i)
-		{
-			for (int j = 0; j < m; ++j)
-				if (graph[i][j] == 1) {
-					isSuccess = false;
-					break;
-				}
-		}
-
-		if (isSuccess) break;
-	}
-
-	cout << time;
+  cout << time;
+  return 0;
 }
+
